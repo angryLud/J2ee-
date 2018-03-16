@@ -1,6 +1,11 @@
 package ticket.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,8 @@ import ticket.model.Hall;
 import ticket.model.Manager;
 import ticket.model.Member;
 import ticket.model.Registry;
+import ticket.utils.MailUtil;
+import ticket.vo.MemberRegistryVo;
 
 @Service
 public class LogAndRegService {
@@ -34,7 +41,8 @@ public class LogAndRegService {
 		if (message.getResult() == false) {
 			return new Message(false, "该用户不存在");
 		} else {
-			Member member = (Member) message.getObject();
+			List<Member> list = (List<Member>) message.getObject();
+			Member member = list.get(0);
 			return checkPasswd(member, member.getPassword(), password);
 		}
 	}
@@ -60,23 +68,78 @@ public class LogAndRegService {
 		}
 	}
 
-	public Message memberRegister(Member member) {
-		member.setState(1);
-		member.setBalance(0.0);
-		member.setConsumption(0.0);
-		member.setLevel(0);
-		member.setPoint(0);
-		member.setDiscount(1.0);
-		Message message = memberDao.register(member);
-		if (message.getResult() == true) {
-			return new Message(true, "会员注册成功");
+	public Message memberRegister(MemberRegistryVo vo) {
+		String email = vo.getEmail();
+		Message message = memberDao.getAllMembers();
+		if (message.getResult()) {
+			List<Member> list = (List<Member>) message.getObject();
+			boolean flag = true;
+			for (Member member : list) {
+				if (member.getEmail().equals(email)) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				Member member = new Member();
+				member.setEmail(vo.getEmail());
+				member.setPassword(vo.getPassword());
+				member.setTelephone(vo.getTelephone());
+				member.setName(vo.getName());
+				member.setSex(vo.getSex());
+				member.setState(0);
+				member.setConsumption(0.0);
+				member.setLevel(0);
+				member.setPoint(0);
+				member.setDiscount(1.0);
+				try {
+					member = MailUtil.activateMail(member,email);
+				} catch (AddressException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Message memberMessage = memberDao.register(member);
+				if (memberMessage.getResult() == true) {
+					return new Message(true, "会员注册成功");
+				}
+			}
+			return new Message(false, "该邮箱已被使用");
+
 		} else {
-			return new Message(false, "会员注册失败");
+			return new Message(false, "注册用户失败");
 		}
 	}
 
 	public Message hallRegister(Registry reg) {
-		return registryDao.addReg(reg);
+		String hallName = reg.getHallName();
+		String address = reg.getAddress();
+		Message message = hallDao.getAllHall();
+		if (message.getResult()) {
+			List<Hall> list = (List<Hall>) message.getObject();
+			boolean flag = true;
+			for (Hall hall : list) {
+				if (hall.getHallName().equals(hallName) && hall.getAddress().equals(address)) {
+					flag = false;
+					break;
+				}
+			}
+			if (flag == true) {
+				Message regMessage = registryDao.addReg(reg);
+				if (regMessage.getResult() == true) {
+					return new Message(true, "场馆注册成功");
+				}
+			}
+			return new Message(false, "该场馆已存在");
+		} else {
+			return new Message(false, "注册场馆失败");
+		}
+
 	}
 
 	private Message checkPasswd(Object object, String correct, String input) {

@@ -51,8 +51,10 @@ public class ManagerService {
 			hall.setAddress(reg.getAddress());
 			hall.setJuniorNum(reg.getJuniorNum());
 			hall.setSeniorNum(reg.getSeniorNum());
+			hall.setPercent(reg.getPercent());
 			hall.setIncome(reg.getIncome());
 			hallDao.addHall(hall);
+			registryDao.deleteReg(reg);
 			return new Message(true, "场馆注册已通过");
 		} else {
 			return new Message(false, "场馆注册审批失败");
@@ -83,6 +85,7 @@ public class ManagerService {
 			hall.setSeniorNum(up.getSeniorNum());
 			hall.setIncome(up.getIncome());
 			hallDao.updateHall(hall);
+			updateDao.deleteUpdate(up);
 			return new Message(true, "场馆更新已通过");
 		} else {
 			return new Message(false, "场馆更新审批失败");
@@ -103,7 +106,7 @@ public class ManagerService {
 	public Message settleOrders(int hallNo) {
 		Message hallMessage = hallDao.findHallById(hallNo);
 		Message orderMessage = hallDao.getUnsettledOrders(hallNo);
-		Message managerMessage = managerDao.findManager(0001);
+		Message managerMessage = managerDao.findManager(1437);
 		if (hallMessage.getResult() && orderMessage.getResult()) {
 			Hall hall = (Hall) hallMessage.getObject();
 			List<Order> orders = (List<Order>) orderMessage.getObject();
@@ -161,10 +164,10 @@ public class ManagerService {
 	}
 
 	public Message getSystemFinances() {
-		Message memberMessage = memberDao.getAllMembers();
-		Message hallMessage = hallDao.getAllHall();
-		Message orderMessage = orderDao.getAllOrders();
-		Message managerMessage = managerDao.findManager(0001);
+		Message memberMessage = memberDao.getMemberNum();
+		Message hallMessage = hallDao.getHallNum();
+		Message orderMessage = orderDao.getOrderNum();
+		Message managerMessage = managerDao.findManager(1437);
 		if (orderMessage.getResult() && memberMessage.getResult() && hallMessage.getResult()
 				&& managerMessage.getResult()) {
 			long totalMember = (long) memberMessage.getObject();
@@ -176,7 +179,7 @@ public class ManagerService {
 				long count = (long) message.getObject();
 				lvlMember[i] = count;
 			}
-			double totalConsumption = (long) orderDao.getTotalConsumption().getObject();
+			double totalConsumption = (double) orderDao.getTotalConsumption().getObject();
 			double totalIncome = ((Manager) managerMessage.getObject()).getIncome();
 			SystemFinanceVo vo = new SystemFinanceVo(totalMember, totalHall, totalOrder, lvlMember, totalConsumption,
 					totalIncome);

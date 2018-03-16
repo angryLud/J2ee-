@@ -171,7 +171,7 @@ public class BaseDao {
 
 		Session session = getSession();
 		try {
-			String queryString = "from " + className.getSimpleName() + " as model where model." + propertyName + "= ?";
+			String queryString = "from " + className.getSimpleName() + " as model where model." + propertyName + "=?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value);
 			List<?> list = queryObject.list();
@@ -188,7 +188,7 @@ public class BaseDao {
 
 		Session session = getSession();
 		try {
-			String queryString = "from " + className.getSimpleName() + " as model where model." + propertyName + "= ?";
+			String queryString = "from " + className.getSimpleName() + " as model where model." + propertyName + "=?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value);
 			List<?> list = queryObject.list();

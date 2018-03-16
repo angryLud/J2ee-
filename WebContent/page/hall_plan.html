@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets</title>
+    <link type="text/css" href="/Tickets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" href="/Tickets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link type="text/css" href="/Tickets/css/theme.css" rel="stylesheet">
+    <link type="text/css" href="/Tickets/images/icons/css/font-awesome.css" rel="stylesheet">
+    <link type="text/css" href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600'
+          rel='stylesheet'>
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                <i class="icon-reorder shaded"></i></a><a class="brand" href="index.html">Tickets </a>
+            <div class="nav-collapse collapse navbar-inverse-collapse">
+                <ul class="nav pull-right">
+                        <li style="margin-top:10px;"><h3 style="font-weight:lighter" id="banner"></h3></li>
+                        <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/Tickets/images/user.png" class="nav-avatar" />
+                                <b class="caret"></b></a>
+<!--                                 待修改ui -->
+                            <ul class="dropdown-menu">
+                                <li><a href="hall_info.html">场馆信息</a></li>
+                                <li><a href="edit_hall.html">编辑信息</a></li>
+                                <li class="divider"></li>
+                                <li><a href="" onclick="logout()">登出</a></li>
+                            </ul>
+                        </li>
+                        
+
+                </ul>
+            </div>
+            <!-- /.nav-collapse -->
+        </div>
+    </div>
+    <!-- /navbar-inner -->
+</div>
+<!-- /navbar -->
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="span2">
+                <div class="sidebar">
+                   <ul class="widget widget-menu unstyled">
+                        <li><a href="hall_make_plan.html"><i class="menu-icon icon-dashboard"></i>发布计划</a></li>
+                        <li><a href="hall_info.html"><i class="menu-icon icon-dashboard"></i>场馆信息</a></li>
+                        <li><a href="hall_statistic.html"><i class="menu-icon icon-dashboard"></i>场馆统计</a></li>
+                    </ul>
+                    <ul class="widget widget-menu unstyled">
+                        <li><a href="hall_plan.html"><i class="menu-icon icon-inbox"></i>场馆计划</a></li>
+                        <li><a href="edit_hall.html"><i class="menu-icon icon-inbox"></i>修改信息</a></li>
+                    </ul>
+                    <ul class="widget widget-menu unstyled">
+                        <li><a href="hall_ticket.html"><i class="menu-icon icon-inbox"></i>现场购票</a></li>
+                        <li><a href="hall_check_ticket.html"><i class="menu-icon icon-inbox"></i>检票登记</a></li>
+                    </ul>
+                    <!--/.widget-nav-->
+
+
+                    <!--/.widget-nav-->
+                    <ul class="widget widget-menu unstyled">
+
+                        <li><a onclick="logout()"><i class="menu-icon icon-signout"></i>登出 </a></li>
+                    </ul>
+                </div>
+                <!--/.sidebar-->
+            </div>
+            <!--/.span3-->
+            <!--header -->
+
+            <div class="span10">
+                <div class="content">
+                    <div class="module message">
+                        <div class="module-head">
+                            <h3>场馆计划</h3>
+                        </div>
+                        <!-- 实现查询的地方 -->
+                        <form method="post">
+                        <div class="module-option clearfix">
+                            <div class="pull-left">
+                                <div class="btn-group">
+                                    <!-- 留作搜索框和标签搜索 -->
+
+                                    <input type="text" name="notename" placeholder="请输入计划编号" id="searchCode">
+                                </div>
+                            </div>
+                            <div class="pull-left">
+                                <button type="button" name="submit" class="btn btn-primary pull-left" onclick="search()">搜索</button>
+                            </div>
+                            <div class="pull-right" id="forBack">
+                                
+                            </div>
+                        </div>
+                        </form>
+                        <div class="module-body table">
+                            <table class="table table-message">
+                                <tbody id="planBody">
+                                <tr class="heading">
+                                    <td class="cell-icon hidden-phone hidden-tablet">
+                                    </td>
+                                    <td class="cell-author hidden-phone hidden-tablet">
+                                        计划编号
+                                    </td>
+                                    <td class="cell-time hidden-phone hidden-tablet">
+                                        演出时间
+                                    </td>
+                                    <td class="cell-author">
+                                        演出类型
+                                    </td>
+                                    <td class="cell-author">
+                                        普通座数量
+                                    </td>
+                                    <td class="cell-author hidden-phone hidden-tablet">
+                                        高等座数量
+                                    </td>
+                                    <td class="cell-author hidden-phone hidden-tablet" id="toBeFixed">
+					    操作       
+                                    </td>
+                                </tr>
+                                
+                                
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="module-foot">
+                        </div>
+                    </div>
+                </div>
+                <!--/.content-->
+            </div>
+            <!--/.span9-->
+        </div>
+    </div>
+    <!--/.container-->
+</div>
+<!--/.wrapper-->
+<div class="footer">
+    <div class="container">
+        <b class="copyright">&copy; Czj.</b>All rights reserved.
+    </div>
+</div>
+<script src="/Tickets/scripts/jquery-1.9.1.min.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/scripts/jquery-ui-1.10.1.custom.min.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/bootstrap/js/bootstrap.min.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/scripts/flot/jquery.flot.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/scripts/flot/jquery.flot.resize.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/scripts/datatables/jquery.dataTables.js"
+		type="text/javascript"></script>
+	<script src="/Tickets/scripts/common.js" type="text/javascript"></script>
+<!-- 	<script src="/Tickets/scripts/sweetalert.min.js" type="text/javascript"></script> -->
+ 	<script src="/Tickets/scripts/js/hall_plan.js" type="text/javascript"></script> 
+	<script src="/Tickets/scripts/js/logout.js" type="text/javascript"></script> 
+	 	
+	<script src="/Tickets/scripts/js/jquery.dropotron.min.js" type="text/javascript"></script>
+	<script src="/Tickets/scripts/js/jquery.scrollgress.min.js" type="text/javascript"></script>
+	<script src="/Tickets/scripts/js/skel.min.js" type="text/javascript"></script>
+	<script src="/Tickets/scripts/js/util.js" type="text/javascript"></script>
+
+	<script src="/Tickets/scripts/js/main.js" type="text/javascript"></script>
+	<script src="/Tickets/scripts/js/jquery.md5.js" type="text/javascript"></script>
+
+
+</body>

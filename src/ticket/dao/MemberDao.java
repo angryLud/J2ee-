@@ -52,7 +52,7 @@ public class MemberDao {
 		List<Plan> list = new ArrayList<Plan>();
 		try {
 			Transaction tx = session.beginTransaction();
-			String queryString = "from Member as model where model." + propname1 + " = ? and " + propname2 + " = ?";
+			String queryString = "from Member as model where model." + propname1 + " = ? and model." + propname2 + " = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value1);
 			queryObject.setParameter(1, value2);
@@ -90,7 +90,7 @@ public class MemberDao {
 
 	public Message getLvlNum(int level) {
 		Session session = baseDao.getSession();
-		List<Order> list = new ArrayList<Order>();
+		List<Member> list = new ArrayList<Member>();
 		try {
 			Transaction tx = session.beginTransaction();
 			String queryString = "from Member as model where model.level = ?";
@@ -98,7 +98,7 @@ public class MemberDao {
 			queryObject.setParameter(0, level);
 			list = queryObject.list();
 			long count = 0;
-			for (Order order : list) {
+			for (Member member : list) {
 				count++;
 			}
 			tx.commit();
@@ -146,7 +146,7 @@ public class MemberDao {
 		List<Order> list = new ArrayList<Order>();
 		try {
 			Transaction tx = session.beginTransaction();
-			String queryString = "from Order as model where model.hallNo = ? and model.orderMethod = ? and model.payState = ? and model.isCancelled = ?";
+			String queryString = "from Order as model where model.email = ? and model.orderMethod = ? and model.payState = ? and model.isCancelled = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, email);
 			queryObject.setParameter(1, 0);
@@ -175,7 +175,7 @@ public class MemberDao {
 		List<Order> list = new ArrayList<Order>();
 		try {
 			Transaction tx = session.beginTransaction();
-			String queryString = "from Order as model where model.hallNo = ? and model.orderMethod = ? and model.isCancelled = ?";
+			String queryString = "from Order as model where model.email = ? and model.orderMethod = ? and model.isCancelled = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, email);
 			queryObject.setParameter(1, 0);

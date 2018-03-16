@@ -17,7 +17,11 @@ public class Plan {
 	// 场馆地点
 	String address;
 	// 演出时间
-	long showDate;
+	String showDate;
+	// 剩余普通座数量
+	int juniorNum;
+	// 剩余高等座数量
+	int seniorNum;
 	// 普通座价格
 	double juniorPrice;
 	// 高等座价格
@@ -26,10 +30,44 @@ public class Plan {
 	String showType;
 	// 内容描述
 	String description;
+	
+	public Plan() {
+		
+	}
+
+	/**
+	 * @param hallNo
+	 * @param hallName
+	 * @param address
+	 * @param showDate
+	 * @param juniorNum
+	 * @param seniorNum
+	 * @param juniorPrice
+	 * @param seniorPrice
+	 * @param showType
+	 * @param description
+	 */
+	public Plan(int hallNo, String hallName, String address, String showDate, int juniorNum, int seniorNum,
+			double juniorPrice, double seniorPrice, String showType, String description) {
+		super();
+
+		this.hallNo = hallNo;
+		this.hallName = hallName;
+		this.address = address;
+		this.showDate = showDate;
+		this.juniorNum = juniorNum;
+		this.seniorNum = seniorNum;
+		this.juniorPrice = juniorPrice;
+		this.seniorPrice = seniorPrice;
+		this.showType = showType;
+		this.description = description;
+	}
 
 	/**
 	 * @return the planNo
 	 */
+	@Id
+	@GeneratedValue
 	public int getPlanNo() {
 		return planNo;
 	}
@@ -75,7 +113,7 @@ public class Plan {
 	/**
 	 * @return the showDate
 	 */
-	public long getShowDate() {
+	public String getShowDate() {
 		return showDate;
 	}
 
@@ -83,8 +121,53 @@ public class Plan {
 	 * @param showDate
 	 *            the showDate to set
 	 */
-	public void setShowDate(long showDate) {
+	public void setShowDate(String showDate) {
 		this.showDate = showDate;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address
+	 *            the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the juniorNum
+	 */
+	public int getJuniorNum() {
+		return juniorNum;
+	}
+
+	/**
+	 * @param juniorNum
+	 *            the juniorNum to set
+	 */
+	public void setJuniorNum(int juniorNum) {
+		this.juniorNum = juniorNum;
+	}
+
+	/**
+	 * @return the seniorNum
+	 */
+	public int getSeniorNum() {
+		return seniorNum;
+	}
+
+	/**
+	 * @param seniorNum
+	 *            the seniorNum to set
+	 */
+	public void setSeniorNum(int seniorNum) {
+		this.seniorNum = seniorNum;
 	}
 
 	/**

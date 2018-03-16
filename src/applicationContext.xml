@@ -41,7 +41,7 @@
   <!--</context:component-scan>-->
 
  <!--配置c3p0数据库连接池-->
-  <bean id="source" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+  <bean id="local" class="com.mchange.v2.c3p0.ComboPooledDataSource"
         destroy-method="close">
     <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/tickets?characterEncoding=UTF8">
@@ -56,13 +56,10 @@
 
   <bean id="sessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-    <property name="dataSource" ref="source"/>
+    <property name="dataSource" ref="local"/>
     <!-- 自动扫描注解方式配置的hibernate类文件 -->
-
-    <!--该配置可以使一个类映射多张表-->
-    <!--<property name="namingStrategy">-->
-      <!--<bean class="org.hibernate.cfg.ImprovedNamingStrategy"></bean>-->
-    <!--</property>-->
+    
+    
 
     <property name="packagesToScan">
       <list>
@@ -78,7 +75,9 @@
         <prop key="hibernate.hbm2ddl.auto">update</prop>
         <prop key="hibernate.show_sql">true</prop>
         <prop key="hibernate.format_sql">true</prop>
+<!--         added            -->
         <prop key="hibernate.connection.autocommit">true</prop>
+        <prop key="javax.persistence.validation.mode">none</prop>
       </props>
     </property>
   </bean>
@@ -86,7 +85,7 @@
 
 
   <bean id="transactionManager"
-        class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        class="org.springframework.orm.hibernate4.HibernateTransactionManager">
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
   <tx:annotation-driven transaction-manager="transactionManager"/>

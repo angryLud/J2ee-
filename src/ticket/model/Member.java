@@ -17,10 +17,10 @@ public class Member {
 	String name;
 	// 性别(0为男，1为女）
 	int sex;
-	// 是否为会员（0不是会员，1是会员）
+	// 是否为会员（0不是会员，1是会员） 
 	int state;
 	// 账户余额
-	double balance;
+//	double balance;
 	// 总消费金额
 	double consumption;
 	// 会员等级
@@ -29,6 +29,9 @@ public class Member {
 	int point;
 	// 享有的折扣
 	double discount;
+	// 激活码
+	String checkCode;
+
 
 	public Member() {
 
@@ -67,13 +70,13 @@ public class Member {
 		this.state = state;
 	}
 
-	public double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(double balance) {
-		this.balance = balance;
-	}
+//	public double getBalance() {
+//		return balance;
+//	}
+//
+//	public void setBalance(double balance) {
+//		this.balance = balance;
+//	}
 
 	public double getConsumption() {
 		return consumption;
@@ -128,6 +131,20 @@ public class Member {
 	 */
 	public void setSex(int sex) {
 		this.sex = sex;
+	}
+
+	/**
+	 * @return the checkCode
+	 */
+	public String getCheckCode() {
+		return checkCode;
+	}
+
+	/**
+	 * @param checkCode the checkCode to set
+	 */
+	public void setCheckCode(String checkCode) {
+		this.checkCode = checkCode;
 	}
 
 }

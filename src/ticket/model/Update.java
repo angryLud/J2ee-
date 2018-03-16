@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "update")
+@Table(name = "tupdate")
 public class Update {
 	// 场馆编码（自动生成）
 	int hallNo;

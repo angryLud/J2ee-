@@ -5,7 +5,7 @@ import java.sql.Date;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order")
+@Table(name = "torder")
 public class Order {
 	// 订单号
 	int orderid;
@@ -14,9 +14,11 @@ public class Order {
 	// 订票渠道（0表示线上预订，1表示线下购票）
 	int orderMethod;
 	// 购票选项（0为选座购买，1为立即购买）
-	int option;
+	int toption;
 	// 购票数量
 	int ticketNum;
+	// 购票种类（0表示普通座，1表示高等座）
+	int ticketType;
 	// 订单金额
 	double totalPrice;
 	// 下单时间
@@ -37,9 +39,11 @@ public class Order {
 	String hallName;
 	// 演出内容
 	String showType;
-	
+	// 优惠金额
+	double minused;
+
 	public Order() {
-		
+
 	}
 
 	/**
@@ -90,18 +94,18 @@ public class Order {
 	}
 
 	/**
-	 * @return the option
+	 * @return the toption
 	 */
-	public int getOption() {
-		return option;
+	public int getToption() {
+		return toption;
 	}
 
 	/**
-	 * @param option
-	 *            the option to set
+	 * @param toption
+	 *            the toption to set
 	 */
-	public void setOption(int option) {
-		this.option = option;
+	public void setToption(int toption) {
+		this.toption = toption;
 	}
 
 	/**
@@ -117,6 +121,20 @@ public class Order {
 	 */
 	public void setTicketNum(int ticketNum) {
 		this.ticketNum = ticketNum;
+	}
+
+	/**
+	 * @return the ticketType
+	 */
+	public int getTicketType() {
+		return ticketType;
+	}
+
+	/**
+	 * @param ticketType the ticketType to set
+	 */
+	public void setTicketType(int ticketType) {
+		this.ticketType = ticketType;
 	}
 
 	/**
@@ -268,5 +286,21 @@ public class Order {
 	public void setShowType(String showType) {
 		this.showType = showType;
 	}
+
+	/**
+	 * @return the minused
+	 */
+	public double getMinused() {
+		return minused;
+	}
+
+	/**
+	 * @param minused the minused to set
+	 */
+	public void setMinused(double minused) {
+		this.minused = minused;
+	}
+	
+	
 
 }

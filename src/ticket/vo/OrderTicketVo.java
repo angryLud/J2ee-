@@ -6,9 +6,11 @@ public class OrderTicketVo {
 	// 会员账号
 	String email;
 	// 购票选项（0为选座购买，1为立即购买）
-	int option;
+	int toption;
 	// 购票数量
 	int ticketNum;
+	// 购票种类（0为普通座，1为高等座）
+	int ticketType;
 	// 订单金额
 	double totalPrice;
 	// 下单时间
@@ -19,13 +21,16 @@ public class OrderTicketVo {
 	int hallNo;
 	// 订单场馆
 	String hallName;
-	// 演出内容
+	// 演出类型
 	String showType;
+	// 优惠金额
+	double minused;
 
 	/**
 	 * @param email
-	 * @param option
+	 * @param toption
 	 * @param ticketNum
+	 * @param ticketType
 	 * @param totalPrice
 	 * @param orderDate
 	 * @param showDate
@@ -33,18 +38,20 @@ public class OrderTicketVo {
 	 * @param hallName
 	 * @param showType
 	 */
-	public OrderTicketVo(String email, int option, int ticketNum, double totalPrice, String orderDate, String showDate,
-			int hallNo, String hallName, String showType) {
+	public OrderTicketVo(String email, int toption, int ticketNum, int ticketType, double totalPrice, String orderDate,
+			String showDate, int hallNo, String hallName, String showType, double minused) {
 		super();
 		this.email = email;
-		this.option = option;
+		this.toption = toption;
 		this.ticketNum = ticketNum;
+		this.ticketType = ticketType;
 		this.totalPrice = totalPrice;
 		this.orderDate = orderDate;
 		this.showDate = showDate;
 		this.hallNo = hallNo;
 		this.hallName = hallName;
 		this.showType = showType;
+		this.minused = minused;
 	}
 
 	/**
@@ -65,16 +72,16 @@ public class OrderTicketVo {
 	/**
 	 * @return the option
 	 */
-	public int getOption() {
-		return option;
+	public int getToption() {
+		return toption;
 	}
 
 	/**
 	 * @param option
 	 *            the option to set
 	 */
-	public void setOption(int option) {
-		this.option = option;
+	public void setToption(int toption) {
+		this.toption = toption;
 	}
 
 	/**
@@ -90,6 +97,21 @@ public class OrderTicketVo {
 	 */
 	public void setTicketNum(int ticketNum) {
 		this.ticketNum = ticketNum;
+	}
+
+	/**
+	 * @return the ticketType
+	 */
+	public int getTicketType() {
+		return ticketType;
+	}
+
+	/**
+	 * @param ticketType
+	 *            the ticketType to set
+	 */
+	public void setTicketType(int ticketType) {
+		this.ticketType = ticketType;
 	}
 
 	/**
@@ -180,6 +202,21 @@ public class OrderTicketVo {
 	 */
 	public void setShowType(String showType) {
 		this.showType = showType;
+	}
+
+	/**
+	 * @return the minused
+	 */
+	public double getMinused() {
+		return minused;
+	}
+
+	/**
+	 * @param minused
+	 *            the minused to set
+	 */
+	public void setMinused(double minused) {
+		this.minused = minused;
 	}
 
 }

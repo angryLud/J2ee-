@@ -45,7 +45,7 @@ public class HallDao {
 		List<Hall> list = new ArrayList<Hall>();
 		try {
 			Transaction tx = session.beginTransaction();
-			String queryString = "from Hall as model where model." + propname1 + " = ? and " + propname2 + " = ?";
+			String queryString = "from Hall as model where model." + propname1 + " = ? and model." + propname2 + " = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, value1);
 			queryObject.setParameter(1, value2);
@@ -73,7 +73,7 @@ public class HallDao {
 
 	public Message getHallNum() {
 		Message message = baseDao.getAll(Hall.class);
-		if (message.getResult() == false) {
+		if (message.getResult() == true) {
 			List<Hall> list = (List<Hall>) message.getObject();
 			long count = 0;
 			for (Hall hall : list) {
@@ -84,10 +84,11 @@ public class HallDao {
 			return new Message(false, "数据获取失败");
 		}
 	}
-
+	
 	public Message getUnsettledOrders(int hallNo) {
 		Session session = baseDao.getSession();
 		List<Order> list = new ArrayList<Order>();
+		int result = 0;
 		try {
 			Transaction tx = session.beginTransaction();
 			String queryString = "from Order as model where model.hallNo = ? and model.isSettled = ? and model.orderMethod = ? and model.isCancelled = ? and model.payState = ?";
@@ -98,8 +99,11 @@ public class HallDao {
 			queryObject.setParameter(3, 1);
 			queryObject.setParameter(4, 1);
 			list = queryObject.list();
+			for(int i=0;i<list.size();i++) {
+				result++;
+			}
 			tx.commit();
-			return new Message(true, list, "数据获取成功");
+			return new Message(true, result, "数据获取成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (session != null) {
@@ -109,7 +113,37 @@ public class HallDao {
 		} finally {
 			session.close();
 		}
-	}
+	} 
+
+	public Message getUnsettledNum(int hallNo) {
+		Session session = baseDao.getSession();
+		List<Order> list = new ArrayList<Order>();
+		int result = 0;
+		try {
+			Transaction tx = session.beginTransaction();
+			String queryString = "from Order as model where model.hallNo = ? and model.isSettled = ? and model.orderMethod = ? and model.isCancelled = ? and model.payState = ?";
+			Query queryObject = session.createQuery(queryString);
+			queryObject.setParameter(0, hallNo);
+			queryObject.setParameter(1, 0);
+			queryObject.setParameter(2, 0);
+			queryObject.setParameter(3, 1);
+			queryObject.setParameter(4, 1);
+			list = queryObject.list();
+			for(int i=0;i<list.size();i++) {
+				result++;
+			}
+			tx.commit();
+			return new Message(true, result, "数据获取成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			return new Message(false, "数据获取失败");
+		} finally {
+			session.close();
+		}
+	} 
 
 	public Message getTotalOrderNum(int hallNo) {
 		Session session = baseDao.getSession();
@@ -119,7 +153,6 @@ public class HallDao {
 			String queryString = "from Order as model where model.hallNo = ?";
 			Query queryObject = session.createQuery(queryString);
 			queryObject.setParameter(0, hallNo);
-			queryObject.setParameter(1, 0);
 			list = queryObject.list();
 			long count = 0;
 			for (Order order : list) {
@@ -213,6 +246,27 @@ public class HallDao {
 			}
 			tx.commit();
 			return new Message(true, count, "数据获取成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			return new Message(false, "数据获取失败");
+		} finally {
+			session.close();
+		}
+	}
+	
+	public Message searchHall(int hallNo) {
+		Session session = baseDao.getSession();
+		List<Hall> list = new ArrayList<Hall>();
+		try {
+			Transaction tx = session.beginTransaction();
+			String queryString = "from Hall as model where model.hallNo like '%" + hallNo + "%'";
+			Query queryObject = session.createQuery(queryString);
+			list = queryObject.list();
+			tx.commit();
+			return new Message(true, list, "数据获取成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (session != null) {
